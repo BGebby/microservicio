@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Servicio para la base de datos PostgreSQL
+  db:
+    image: postgres
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: ${DB_USER}     # Usuario de la base de datos
+      POSTGRES_PASSWORD: ${DB_PASSWORD}  # Contraseña de la base de datos
+      POSTGRES_DB: ${DATABASE}         # Nombre de la base de datos
+    ports:
+      - "5432:5432"   # Exponer el puerto de PostgreSQL
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Persistencia de datos
+    networks:
+      - app-network
+
+  # Servicio para la API de Node.js
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: Micro-services
+    environment:
+      DB_HOST: postgres-db
+      DB_USER: ${DB_USER}           # Usuario de la base de datos
+      DB_PASSWORD: ${DB_PASSWORD}   # Contraseña de la base de datos
+      DB_NAME: ${DATABASE}             # Nombre de la base de datos
+    ports:
+      - "3003:3003"  # Exponer el puerto de la API Node.js
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+ # Servicio para pgAdmin
+  pgadmin:
+    image: dpage/pgadmin4  # Imagen oficial de pgAdmin
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PG_EMAIL}  # Correo electrónico por defecto
+      PGADMIN_DEFAULT_PASSWORD: ${PG_PASSWORD}  # Contraseña por defecto
+    ports:
+      - "5050:80"  # Exponer el puerto de pgAdmin en el contenedor
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+# Definir las redes
+networks:
+  app-network:
+    driver: bridge
+
+# Volúmenes para persistencia de datos
+volumes:
+  pgdata:
+    driver: local
