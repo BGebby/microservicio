@@ -1,6 +1,7 @@
 
 import { Pool } from "pg";
-import { configEnv } from "./Config/config-db";
+import { configEnv } from "../../config/config-db";
+
 
 // Obtener las credenciales desde las variables de entorno
 const { host, port, user, password, database } = configEnv.pg;

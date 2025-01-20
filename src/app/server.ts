@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import { configEnv } from './Config/config-db';
-import insertPerson from './routes/insertPerson'
+import { configEnv } from '../config/config-db';
+import insertPerson from '../models/person/insertPerson'
 
 const { port } = configEnv.api;
 const { portPG } = configEnv.pgadmin;

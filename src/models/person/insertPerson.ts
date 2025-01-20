@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
-import pool from "../db";
+import pool from "../../core/database/conection";
+
 
 const insertPerson = express.Router();
 

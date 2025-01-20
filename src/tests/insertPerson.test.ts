@@ -1,6 +1,6 @@
 import request from "supertest";
 import express from "express";
-import insertPerson from "../routes/insertPerson"; // Ruta que quieres probar
+import insertPerson from "../models/person/insertPerson"; // Ruta que quieres probar
 
 const app = express();
 app.use(express.json()); // Middleware necesario para parsear JSON
